@@ -5,7 +5,7 @@
  * basic instantation/conversion example:
  * <code>
  * 
- * $xml = "<?xml version="1.0" encoding="UTF-8" ?><base id="1"></base>
+ * $xml = '<?xml version="1.0" encoding="UTF-8" ?><base id="1"></base>';
  *
  * $xml_xson = new xSon($xml);
  * 
