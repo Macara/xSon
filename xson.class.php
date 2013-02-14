@@ -130,46 +130,46 @@ class xSon
 	}
 	
 	//This section defines the getters/setters of the class
-	public function data(data = null)
+	public function data($data = null)
 	{
 		if (data == null)
 			return $this->datos;
 		else 
-			$this->datos = data;
+			$this->datos = $data;
 	}
 	
-	public function json_root(json_root = null)
+	public function json_root($json_root = null)
 	{
 		if (json_root == null)
 			return $this->json_root;
 		else 
-			$this->json_root = json_root;
+			$this->json_root = $json_root;
 	}
 	
 	
-	public function xml_codification(xml_codif = null)
+	public function xml_codification($xml_codif = null)
 	{
 		if (xml_codif == null)
 			return $this->xml_codif;
 		else 
-			$this->xml_codif = xml_codif;
+			$this->xml_codif = $xml_codif;
 	}
 	
-	public function xml_version(xml_version = null)
+	public function xml_version($xml_version = null)
 	{
 		if (xml_version == null)
 			return $this->xml_version;
 		else 
-			$this->xml_version = xml_version;
+			$this->xml_version = $xml_version;
 	}
 	
 	
-	public function xml_value(xml_value = null)
+	public function xml_value($xml_value = null)
 	{
 		if (xml_value == null)
 			return $this->xml_value;
 		else 
-			$this->xml_value = xml_value;
+			$this->xml_value = $xml_value;
 	}
 	
 	//Implementacion das funcions
