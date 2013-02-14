@@ -2,16 +2,20 @@
 
 /*
  * Simple iterator that serves as a utility class for xson
+ * 
+ * basic example:
  * <code>
  * 
  * $iterator = new arrayIterador(array(data));
  * 
- * $acc->addNum( 20 );
+ * while ($iterador->exists_next())
+ * {
+ * 	echo $iterador->next();
+ * }
  * 
- * echo $acc->getTotal();
  * </code>
  *
- * @author Glen Scott <glen @ glenscott.co.uk>
+ * @author Miguel Ángel Cagide Fagín <mikelusmac@gmail.com>
  */
 class arrayIterador
 {

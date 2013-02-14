@@ -1,5 +1,20 @@
 <?php
-
+/*
+ * Lightweigth library for objectual management of XML/JSON data
+ * 
+ * basic instantation/conversion example:
+ * <code>
+ * 
+ * $xml = "<?xml version="1.0" encoding="UTF-8" ?><base id="1"></base>
+ *
+ * $xml_xson = new xSon($xml);
+ * 
+ * echo $xml_xson->to_string(JSON);
+ * 
+ * </code>
+ *
+ * @author Miguel Ángel Cagide Fagín <mikelusmac@gmail.com>
+ */
 include(dirname(__FILE__).'/arrayIterador.class.php');
 
 define('XML','xml');
@@ -108,6 +123,12 @@ class xSon
 		return $this->iterador();
 	}
 	
+	//Output as an XML/JSON string
+	public function to_string($flags = XML)
+	{
+		return $this->a_cadea($flags);
+	}
+	
 	//This section defines the getters/setters of the class
 	public function data(data = null)
 	{
@@ -151,7 +172,7 @@ class xSon
 			$this->xml_value = xml_value;
 	}
 	
-	//Implementacion da interfaz
+	//Implementacion das funcions
 	public function escribir_ficheiro($ficheiro = null,  $flags = 0)
 	{
 		if ($flags == XML)
@@ -317,7 +338,7 @@ class xSon
 
 	}
 	
-	public function to_string($flags = XML)
+	public function a_cadea($flags = XML)
 	{
 		if ($flags == XML)
 		{
