@@ -52,7 +52,7 @@ class xSon
 				}
 				else
 				{
-					$datos = '{"@raiz":'.$datos.'}';
+					
 					$this->parse_json($datos);
 				}
 			}
@@ -66,7 +66,7 @@ class xSon
 				else
 				{
 					$fich = file_get_contents($datos);
-					$fich = '{"@raiz":'.$fich.'}';
+					
 					$this->parse_json($fich);
 				}
 			}
@@ -132,7 +132,7 @@ class xSon
 	//This section defines the getters/setters of the class
 	public function data($data = null)
 	{
-		if (data == null)
+		if ($data == null)
 			return $this->datos;
 		else 
 			$this->datos = $data;
@@ -140,7 +140,7 @@ class xSon
 	
 	public function json_root($json_root = null)
 	{
-		if (json_root == null)
+		if ($json_root == null)
 			return $this->json_root;
 		else 
 			$this->json_root = $json_root;
@@ -149,7 +149,7 @@ class xSon
 	
 	public function xml_codification($xml_codif = null)
 	{
-		if (xml_codif == null)
+		if ($xml_codif == null)
 			return $this->xml_codif;
 		else 
 			$this->xml_codif = $xml_codif;
@@ -157,7 +157,7 @@ class xSon
 	
 	public function xml_version($xml_version = null)
 	{
-		if (xml_version == null)
+		if ($xml_version == null)
 			return $this->xml_version;
 		else 
 			$this->xml_version = $xml_version;
@@ -166,13 +166,13 @@ class xSon
 	
 	public function xml_value($xml_value = null)
 	{
-		if (xml_value == null)
+		if ($xml_value == null)
 			return $this->xml_value;
 		else 
 			$this->xml_value = $xml_value;
 	}
 	
-	//Implementacion das funcions
+	//Implementacion da interfaz
 	public function escribir_ficheiro($ficheiro = null,  $flags = 0)
 	{
 		if ($flags == XML)
@@ -207,7 +207,7 @@ class xSon
 		else
 			$this->get_nodo_pai_recursivo($this->datos,$key,$atributo,$idAtributo,$pai,$atributoPai,$idAtributoPai);
 				
-		$temporal = new xSon();
+		$temporal = new xson();
 		$temporal->cambiar_datos($this->temp);
 		$this->temp = null; 
 		return $temporal;
@@ -305,7 +305,7 @@ class xSon
 		}
 		else
 		{
-			$temporal = new xSon();
+			$temporal = new xson();
 			$temp = array();
 			$temp[$key] = array();
 			$temp[$key][0] = array();
@@ -384,15 +384,7 @@ class xSon
 				return $this->escribir_json();
 			}
 	}
-	
-	public function iterador()
-	{
-		$chave = key(array_slice($this->datos, 0, 1, true));
-		return new arrayIterador($this->datos[$chave]);
-	}
-	
-	
-	
+
 	//Implementacions recursivas privadas
 	private function parse_xml($lFicheiro)
 	{
@@ -453,6 +445,68 @@ class xSon
 		
 	}
 	
+	public function parse_json($json = null)
+	{
+		$array = array();
+	
+		$json_array = json_decode($json,true);
+		
+			
+		$array["@raiz"] = array();
+		
+		$chave = key(array_slice($json_array, 0, 1, true));
+		
+		$array["@raiz"][0]["@valor"] = "";
+		$array["@raiz"][0]["@atributos"] = array();
+		$array["@raiz"][0][$chave][] = $this->json_recursivo($json_array[$chave]);
+		
+		$this->datos = $array;
+	}
+
+	public function json_recursivo($array = null, $e_array = false)
+	{
+		$temp = array();
+		
+		if (is_array($array))
+		{
+			while(list($chave, $valor) = each($array))
+			{
+				if (is_array($valor))
+				{
+					if (!array_key_exists("0",$valor))
+					{
+						if (!$e_array)
+							$temp[$chave][] = $this->json_recursivo($valor);
+						else
+							$temp[$chave] = $this->json_recursivo($valor);
+					}
+					else
+					{
+						$temp[$chave] = $this->json_recursivo($valor,true);
+					}
+				}
+				else
+				{
+					if (!array_key_exists("@valor",$temp))
+					{
+						$temp["@valor"] = "";
+					}
+					if (!array_key_exists("@atributos",$temp))
+					{
+						$temp["@atributos"] = array();
+					}
+					
+					$temp["@atributos"][$chave] = $valor;
+				}
+			}
+			return $temp;
+		}
+		else 
+		{
+			return $array;
+		}
+	}
+	/*
 	private function parse_json($string = "")
 	{
 		$array = array();
@@ -466,14 +520,11 @@ class xSon
 			{
 				$temp[$chave] = $temp[$chave][$chave2];
 			}
-			$aux[$this->json_root]=$temp[$chave];
-			$temp[$chave] = $aux;
+			
 			$array[$chave] = array($this->json_recursivo($temp[$chave]));
 		}
 		else
 		{
-			$aux[$this->json_root]=$temp[$chave];
-			$temp[$chave] = $aux;
 			$array[$chave] = array($this->json_recursivo($temp[$chave]));
 		}
 		
@@ -524,6 +575,7 @@ class xSon
 		}
 		return $temp;
 	}
+	*/
 		
 	private function escribir_xml($datos = null, $ficheiro = null)
 	{
